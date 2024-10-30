@@ -84,6 +84,7 @@ public class ChatClient extends AbstractClient {
             case "#quit":
                 quit();
                 break;
+
             // ii) Causes the client to disconnect from the server, but not quit.
             case "#logoff":
                 try {
@@ -93,9 +94,9 @@ public class ChatClient extends AbstractClient {
                         System.out.println("ERROR - The client is already disconnected.");
                     }
                 } catch (IOException e) {
-                    System.out.println("Disconnection problem.");
                 }
                 break;
+
             // (iii) Calls the setHost method in the client.
             // Only allowed if the client is logged off; displays an error message otherwise
             case "#sethost":
@@ -103,9 +104,10 @@ public class ChatClient extends AbstractClient {
                     System.out.println("ERROR - Client is still connected.");
                 } else {
                     super.setHost(this.getHost());
-                    clientUI.display("Port is set to " + getHost());
+                    clientUI.display("Host is set to " + getHost());
                 }
                 break;
+
             // (iv) Calls the setPort method in the client, with the same constraints as #sethost.
             case "#setport":
                 if (this.isConnected()) {
@@ -115,6 +117,7 @@ public class ChatClient extends AbstractClient {
                     clientUI.display("Port is set to " + getPort());
                 }
                 break;
+
             // (v) Causes the client to connect to the server. Only allowed if the client is not already
             // connected; displays an error message otherwise.
             case "#login":
@@ -126,16 +129,20 @@ public class ChatClient extends AbstractClient {
                         System.out.println("ERROR - The client is already connected.");
                     }
                 } catch (IOException e) {
-                    System.out.println("Disconnection problem.");
                 }
                 break;
+
             //  (vi) Displays the current host name.
             case "#gethost":
                 clientUI.display("Current host is " + this.getHost());
                 break;
+
             // (vii) Displays the current port number.
             case "#getport":
                 clientUI.display("Current port is " + this.getPort());
+                break;
+            default:
+                System.out.println("ERROR - Unknown command.");
                 break;
         }
     }

@@ -81,7 +81,7 @@ public class EchoServer extends AbstractServer {
     /**
      * Implemented the hook method called each time a client disconnects.
      * The default implementation does nothing. The method
-     * may be overridden by subclasses but should remains synchronized.
+     * may be overridden by subclasses but should remain synchronized.
      *
      * @param client the connection with the client.
      */
