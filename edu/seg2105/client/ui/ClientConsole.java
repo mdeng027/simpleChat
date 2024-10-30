@@ -54,7 +54,7 @@ public class ClientConsole implements ChatIF {
 
 
         } catch (IOException exception) {
-            System.out.println("Error: Can't setup connection!"
+            System.out.println("ERROR - Can't setup connection!"
                     + " Terminating client.");
             System.exit(1);
         }
@@ -86,8 +86,8 @@ public class ClientConsole implements ChatIF {
     }
 
     /**
-     * This method overrides the method in the ChatIF interface.  It
-     * displays a message onto the screen.
+     * This method overrides the method in the ChatIF interface.
+     * It displays a message onto the screen.
      *
      * @param message The string to be displayed.
      */
