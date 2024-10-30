@@ -68,8 +68,9 @@ public class ChatClient extends AbstractClient {
         try {
             if (message.startsWith("#")) {
                 handleCommand(message);
+            } else {
+                sendToServer(message);
             }
-            sendToServer(message);
         } catch (IOException e) {
             clientUI.display
                     ("Could not send message to server.  Terminating client.");
@@ -77,8 +78,39 @@ public class ChatClient extends AbstractClient {
         }
     }
 
-    private void handleCommand(String message) {
-
+    private void handleCommand(String command) {
+        switch (command) {
+            // Causes the client to terminate gracefully.
+            case "#quit":
+                quit();
+                break;
+            // Causes the client to disconnect from the server, but not quit.
+            case "#logoff":
+//                try {
+//                    if
+//                } catch (Exception e) {
+//                    throw
+//                }
+//                closeConnection();
+                break;
+            // Calls the setHost method in the client.
+            // Only allowed if the client is logged off; displays an error message otherwise
+            case "sethost":
+                break;
+            // Calls the setPort method in the client, with the same constraints as #sethost.
+            case "setport":
+                break;
+            // Causes the client to connect to the server. Only allowed if the client is not already
+            // connected; displays an error message otherwise.
+            case "login":
+                break;
+            //  Displays the current host name.
+            case "gethost":
+                System.out.println("Current host is" + this.getHost());
+                // Displays the current port number.
+            case "getport":
+                System.out.println("Current port is" + getPort());
+        }
     }
 
     /**
@@ -88,6 +120,7 @@ public class ChatClient extends AbstractClient {
         try {
             closeConnection();
         } catch (IOException e) {
+            // TODO
         }
         System.exit(0);
     }
