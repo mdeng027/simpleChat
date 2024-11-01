@@ -33,12 +33,13 @@ public class ChatClient extends AbstractClient {
     /**
      * Constructs an instance of the chat client.
      *
+     * @param loginID  The ID of the client.
      * @param host     The server to connect to.
      * @param port     The port number to connect on.
      * @param clientUI The interface type variable.
      */
 
-    public ChatClient(String host, int port, ChatIF clientUI)
+    public ChatClient(String loginID, String host, int port, ChatIF clientUI)
             throws IOException {
         super(host, port); //Call the superclass constructor
         this.clientUI = clientUI;

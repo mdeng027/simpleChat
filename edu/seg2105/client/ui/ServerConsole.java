@@ -33,7 +33,15 @@ public class ServerConsole implements ChatIF {
      * @param port The port number to connect on.
      */
     public ServerConsole(int port) {
-        super(port);
+        try {
+            server = new EchoServer(port);
+        } catch (Exception ex) {
+            System.out.println("ERROR - Can't setup connection!" + " Terminating client.");
+            System.exit(1);
+        }
+
+        // Create scanner object to read from console
+        fromConsole = new Scanner(System.in);
     }
 
     //Instance methods ************************************************
@@ -64,7 +72,7 @@ public class ServerConsole implements ChatIF {
      */
     @Override
     public void display(String message) {
-        System.out.println("SERVER MSG > " + message);
+        System.out.println("> " + message);
     }
 
     //Class methods ***************************************************

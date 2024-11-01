@@ -4,6 +4,7 @@ package edu.seg2105.edu.server.backend;
 // license found at www.lloseng.com 
 
 
+import edu.seg2105.client.backend.ChatClient;
 import ocsf.server.*;
 
 /**
@@ -23,6 +24,13 @@ public class EchoServer extends AbstractServer {
      */
     final public static int DEFAULT_PORT = 5555;
 
+    /**
+     * The login key of the client.
+     */
+    final private String key = "loginKey";
+
+    ChatClient client;
+
     //Constructors ****************************************************
 
     /**
@@ -32,8 +40,12 @@ public class EchoServer extends AbstractServer {
      */
     public EchoServer(int port) {
         super(port);
+        try {
+            listen(); // Start listening for connections
+        } catch (Exception e) {
+            System.out.println("ERROR - Could not listen for clients!");
+        }
     }
-
 
     //Instance methods ************************************************
 
@@ -46,7 +58,24 @@ public class EchoServer extends AbstractServer {
     public void handleMessageFromClient
     (Object msg, ConnectionToClient client) {
         System.out.println("Message received: " + msg + " from " + client);
-        this.sendToAllClients(msg);
+        String messageString = (String) msg;
+        if (messageString.startsWith("#login")) {
+            String loginID = "";
+            client.setInfo(key, loginID);
+        } else {
+            this.sendToAllClients(msg);
+        }
+    }
+
+    /**
+     * This method handles all data coming from the Server UI
+     *
+     * @param message The message from the UI.
+     */
+    @Override
+    public void handleMessageFromServer(String message) {
+        System.out.println("SERVER MSG > " + message);
+        this.sendToAllClients(message);
     }
 
     /**
@@ -107,7 +136,7 @@ public class EchoServer extends AbstractServer {
      *
      * @param message The message from the UI.
      */
-    private void handleMessageFromServer(String message) {
+    private void handleMessageFromServerConsole(String message) {
         if (message.startsWith("#")) {
             String[] args = message.split(" ");
             String command = args[0];
