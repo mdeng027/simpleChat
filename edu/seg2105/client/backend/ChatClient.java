@@ -55,8 +55,6 @@ public class ChatClient extends AbstractClient {
      */
     public void handleMessageFromServer(Object msg) {
         clientUI.display(msg.toString());
-
-
     }
 
     /**
@@ -67,7 +65,7 @@ public class ChatClient extends AbstractClient {
     public void handleMessageFromClientUI(String message) {
         try {
             if (message.startsWith("#")) {
-                handleClientCommand(message);
+                handleCommand(message);
             } else {
                 sendToServer(message);
             }
@@ -84,7 +82,7 @@ public class ChatClient extends AbstractClient {
      *
      * @param message The message from the UI.
      */
-    private void handleClientCommand(String message) {
+    private void handleCommand(String message) {
         String[] args = message.split(" ");
         String command = args[0];
         switch (command) {

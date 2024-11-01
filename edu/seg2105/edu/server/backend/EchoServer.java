@@ -72,7 +72,7 @@ public class EchoServer extends AbstractServer {
      * @param client the connection connected to the client.
      */
     @Override
-    protected synchronized void clientConnected(ConnectionToClient client) {
+    synchronized protected void clientConnected(ConnectionToClient client) {
         System.out.println("A client has connected.");
     }
 
@@ -84,36 +84,98 @@ public class EchoServer extends AbstractServer {
      * @param client the connection with the client.
      */
     @Override
-    protected synchronized void clientDisconnected(ConnectionToClient client) {
+    synchronized protected void clientDisconnected(ConnectionToClient client) {
         System.out.println("A client has disconnected.");
     }
 
-
-    //Class methods ***************************************************
+    /**
+     * Implemented the hook method called each time an exception is thrown in a
+     * ConnectionToClient thread.
+     * The method may be overridden by subclasses but should remain synchronized.
+     *
+     * @param client    the client that raised the exception.
+     * @param exception the exception thrown.
+     */
+    synchronized protected void clientException(
+            ConnectionToClient client, Throwable exception) {
+        System.out.println("A client has exception: " + exception);
+    }
 
     /**
-     * This method is responsible for the creation of
-     * the server instance (there is no UI in this phase).
+     * This method handles commands coming from the UI.
+     * Commands start with the '#' symbol.
      *
-     * @param args\[0] The port number to listen on.  Defaults to 5555
-     *                 if no argument is entered.
+     * @param message The message from the UI.
      */
-    public static void main(String[] args) {
-        int port = 0; //Port to listen on
+    private void handleMessageFromServer(String message) {
+        if (message.startsWith("#")) {
+            String[] args = message.split(" ");
+            String command = args[0];
 
-        try {
-            port = Integer.parseInt(args[0]); //Get port from command line
-        } catch (Throwable t) {
-            port = DEFAULT_PORT; //Set port to 5555
-        }
+            switch (command) {
+                // i) Causes the server to terminate gracefully.
+                case "#quit":
+                    try {
+                        this.close();
+                    } catch (Exception e) {
+                        System.exit(1);
+                    }
+                    break;
 
-        EchoServer sv = new EchoServer(port);
+                // ii)  Causes the server to stop listening for new clients.
+                case "#stop":
+                    this.stopListening();
+                    break;
 
-        try {
-            sv.listen(); //Start listening for connections
-        } catch (Exception ex) {
-            System.out.println("ERROR - Could not listen for clients!");
+                // (iii)  Causes the server not only to stop listening for new clients,
+                // but also to disconnect all existing clients.
+                case "#close":
+                    try {
+                        this.close();
+                    } catch (Exception e) {
+                        System.out.println("ERROR - Could not close connection.");
+                    }
+                    break;
+
+                // (iv) Calls the setPort method in the server.
+                // Only allowed if the server is closed.
+                case "#setport":
+                    if (!this.isListening() && this.getNumberOfClients() < 1) {
+                        super.setPort(Integer.parseInt(args[1]));
+                        System.out.println("Port is set to " + (args[1]));
+                    } else {
+                        System.out.println("ERROR - Server is still connected.");
+                    }
+                    break;
+
+                // (v) Causes the server to start listening for new clients.
+                // Only valid if the server is stopped.
+                case "#start":
+                    if (!this.isListening()) {
+                        try {
+                            this.listen();
+                        } catch (Exception e) {
+                            System.out.println("ERROR - Could not start listening for clients.");
+                        }
+                    } else {
+                        System.out.println("ERROR - Already listening for clients.");
+                    }
+                    break;
+
+                // (vi) Displays the current port number.
+                case "#getport":
+                    System.out.println("Current port is " + this.getPort());
+                    break;
+
+                default:
+                    System.out.println("ERROR - Unknown command:" + command);
+                    break;
+            }
+        } else {
+            this.sendToAllClients(message);
         }
     }
+
+    //Class methods ***************************************************
 }
 //End of EchoServer class
