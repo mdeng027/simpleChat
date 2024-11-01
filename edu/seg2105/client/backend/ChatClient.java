@@ -78,10 +78,13 @@ public class ChatClient extends AbstractClient {
         }
     }
 
-    private void handleCommand(String command) {
+    private void handleCommand(String message) {
+        String[] args = message.split(" ");
+        String command = args[0];
         switch (command) {
             // i) Causes the client to terminate gracefully.
             case "#quit":
+                System.out.println("Quitting...");
                 quit();
                 break;
 
@@ -94,6 +97,7 @@ public class ChatClient extends AbstractClient {
                         System.out.println("ERROR - The client is already disconnected.");
                     }
                 } catch (IOException e) {
+                    System.out.println("ERROR - Could not close connection.");
                 }
                 break;
 
@@ -101,10 +105,10 @@ public class ChatClient extends AbstractClient {
             // Only allowed if the client is logged off; displays an error message otherwise
             case "#sethost":
                 if (this.isConnected()) {
-                    System.out.println("ERROR - Client is still connected.");
+                    System.out.println("ERROR - Client is already connected.");
                 } else {
-                    super.setHost(this.getHost());
-                    clientUI.display("Host is set to " + getHost());
+                    super.setHost(args[1]);
+                    System.out.println("Host is set to " + (args[1]));
                 }
                 break;
 
@@ -113,8 +117,8 @@ public class ChatClient extends AbstractClient {
                 if (this.isConnected()) {
                     System.out.println("ERROR - Client is still connected.");
                 } else {
-                    super.setPort(this.getPort());
-                    clientUI.display("Port is set to " + getPort());
+                    super.setPort(Integer.parseInt(args[1]));
+                    System.out.println("Port is set to " + (args[1]));
                 }
                 break;
 
@@ -123,26 +127,27 @@ public class ChatClient extends AbstractClient {
             case "#login":
                 try {
                     if (!(this.isConnected())) {
-                        clientUI.display("Connection opened");
+                        System.out.println("Connection opened");
                         this.openConnection();
                     } else {
                         System.out.println("ERROR - The client is already connected.");
                     }
                 } catch (IOException e) {
+                    System.out.println("ERROR - Could not open connection.");
                 }
                 break;
 
             //  (vi) Displays the current host name.
             case "#gethost":
-                clientUI.display("Current host is " + this.getHost());
+                System.out.println("Current host is " + this.getHost());
                 break;
 
             // (vii) Displays the current port number.
             case "#getport":
-                clientUI.display("Current port is " + this.getPort());
+                System.out.println("Current port is " + this.getPort());
                 break;
             default:
-                System.out.println("ERROR - Unknown command.");
+                System.out.println("ERROR - Unknown command:" + command);
                 break;
         }
     }
@@ -154,6 +159,7 @@ public class ChatClient extends AbstractClient {
         try {
             closeConnection();
         } catch (IOException e) {
+            System.out.println("ERROR - Could not close connection.");
         }
         System.exit(0);
     }
