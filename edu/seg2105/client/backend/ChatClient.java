@@ -60,7 +60,7 @@ public class ChatClient extends AbstractClient {
     }
 
     /**
-     * This method handles all data coming from the UI
+     * This method handles all data coming from the client UI
      *
      * @param message The message from the UI.
      */
@@ -73,11 +73,17 @@ public class ChatClient extends AbstractClient {
             }
         } catch (IOException e) {
             clientUI.display
-                    ("Could not send message to server.  Terminating client.");
+                    ("Could not send message to server. Terminating client.");
             quit();
         }
     }
 
+    /**
+     * This method handles commands coming from the UI.
+     * Commands start with the '#' symbol.
+     *
+     * @param message The message from the UI.
+     */
     private void handleCommand(String message) {
         String[] args = message.split(" ");
         String command = args[0];
@@ -173,7 +179,7 @@ public class ChatClient extends AbstractClient {
      */
     @Override
     protected void connectionException(Exception exception) {
-        clientUI.display("The server has shut down");
+        System.out.println("The server has shut down");
         System.exit(0);
         // quit();
     }
@@ -186,7 +192,7 @@ public class ChatClient extends AbstractClient {
      */
     @Override
     protected void connectionClosed() {
-        clientUI.display("Connection closed");
+        System.out.println("Connection closed");
     }
 }
 //End of ChatClient class

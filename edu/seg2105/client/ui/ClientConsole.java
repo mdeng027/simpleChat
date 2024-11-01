@@ -72,7 +72,6 @@ public class ClientConsole implements ChatIF {
      */
     public void accept() {
         try {
-
             String message;
 
             while (true) {
@@ -122,4 +121,4 @@ public class ClientConsole implements ChatIF {
         chat.accept();  //Wait for console data
     }
 }
-//End of ConsoleChat class
+//End of ClientConsole class

@@ -54,8 +54,7 @@ public class EchoServer extends AbstractServer {
      * when the server starts listening for connections.
      */
     protected void serverStarted() {
-        System.out.println
-                ("Server listening for connections on port " + getPort());
+        System.out.println("Server listening for connections on port " + getPort());
     }
 
     /**
@@ -63,8 +62,7 @@ public class EchoServer extends AbstractServer {
      * when the server stops listening for connections.
      */
     protected void serverStopped() {
-        System.out.println
-                ("Server has stopped listening for connections.");
+        System.out.println("Server has stopped listening for connections.");
     }
 
     /**
@@ -74,7 +72,7 @@ public class EchoServer extends AbstractServer {
      * @param client the connection connected to the client.
      */
     @Override
-    protected void clientConnected(ConnectionToClient client) {
+    protected synchronized void clientConnected(ConnectionToClient client) {
         System.out.println("A client has connected.");
     }
 
@@ -86,7 +84,7 @@ public class EchoServer extends AbstractServer {
      * @param client the connection with the client.
      */
     @Override
-    synchronized protected void clientDisconnected(ConnectionToClient client) {
+    protected synchronized void clientDisconnected(ConnectionToClient client) {
         System.out.println("A client has disconnected.");
     }
 
