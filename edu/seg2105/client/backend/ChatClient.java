@@ -67,7 +67,7 @@ public class ChatClient extends AbstractClient {
     public void handleMessageFromClientUI(String message) {
         try {
             if (message.startsWith("#")) {
-                handleCommand(message);
+                handleClientCommand(message);
             } else {
                 sendToServer(message);
             }
@@ -84,7 +84,7 @@ public class ChatClient extends AbstractClient {
      *
      * @param message The message from the UI.
      */
-    private void handleCommand(String message) {
+    private void handleClientCommand(String message) {
         String[] args = message.split(" ");
         String command = args[0];
         switch (command) {
@@ -152,6 +152,7 @@ public class ChatClient extends AbstractClient {
             case "#getport":
                 System.out.println("Current port is " + this.getPort());
                 break;
+
             default:
                 System.out.println("ERROR - Unknown command:" + command);
                 break;
