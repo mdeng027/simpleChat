@@ -85,6 +85,7 @@ public class EchoServer extends AbstractServer {
         System.out.println("Server listening for connections on port " + getPort());
     }
 
+
     /**
      * This method overrides the one in the superclass.  Called
      * when the server stops listening for connections.
@@ -101,7 +102,7 @@ public class EchoServer extends AbstractServer {
      */
     @Override
     synchronized protected void clientConnected(ConnectionToClient client) {
-        System.out.println("A client has connected.");
+        System.out.println("Client " + client.toString() + " has connected.");
     }
 
     /**
@@ -113,7 +114,7 @@ public class EchoServer extends AbstractServer {
      */
     @Override
     synchronized protected void clientDisconnected(ConnectionToClient client) {
-        System.out.println("A client has disconnected.");
+        System.out.println("Client " + client.toString() + " has disconnected.");
     }
 
     /**
@@ -126,7 +127,7 @@ public class EchoServer extends AbstractServer {
      */
     synchronized protected void clientException(
             ConnectionToClient client, Throwable exception) {
-        System.out.println("A client has exception: " + exception);
+        System.out.println("ERROR - Client " + client.toString() + " has exception: " + exception.toString());
     }
 
     /**
