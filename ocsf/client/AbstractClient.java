@@ -1,7 +1,7 @@
 // DO NOT MODIFY
 
 // This file contains material supporting section 3.7 of the textbook:
-// "Object Oriented Software Engineering" and is issued under the open-source
+// "Object-Oriented Software Engineering" and is issued under the open-source
 
 package ocsf.client;
 
@@ -15,7 +15,7 @@ import java.net.*;
  * <code> Object </code> instances.
  * <p>
  * Method <code> handleMessageFromServer </code> must be defined by a concrete
- * subclass. Several other hook methods may also be overriden.
+ * subclass. Several other hook methods may also be overridden.
  * <p>
  * Several public service methods are provided to application that use this
  * framework.
@@ -142,7 +142,7 @@ public abstract class AbstractClient implements Runnable {
      * @throws IOException if an I/O error occurs when closing.
      */
     final public void closeConnection() throws IOException {
-        // Prevent the thread from looping any more
+        // Prevent the thread from looping anymore
         readyToStop = true;
 
         try {
@@ -156,7 +156,7 @@ public abstract class AbstractClient implements Runnable {
     // ACCESSING METHODS ------------------------------------------------
 
     /**
-     * @return true if the client is connnected.
+     * @return true if the client is connected.
      */
     final public boolean isConnected() {
         return clientReader != null && clientReader.isAlive();
@@ -248,7 +248,7 @@ public abstract class AbstractClient implements Runnable {
 
     /**
      * Hook method called after the connection has been closed. The default
-     * implementation does nothing. The method may be overriden by subclasses to
+     * implementation does nothing. The method may be overridden by subclasses to
      * perform special processing such as cleaning up and terminating, or
      * attempting to reconnect.
      */
