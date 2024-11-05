@@ -1,5 +1,5 @@
 // This file contains material supporting section 3.7 of the textbook:
-// "Object Oriented Software Engineering" and is issued under the open-source
+// "Object-Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com 
 
 package edu.seg2105.client.common;

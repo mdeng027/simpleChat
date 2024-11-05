@@ -36,7 +36,7 @@ public class ServerConsole implements ChatIF {
         try {
             server = new EchoServer(port);
         } catch (Exception ex) {
-            System.out.println("ERROR - Can't setup connection!" + " Terminating client.");
+            System.out.println("ERROR - Can't setup server!" + " Terminating server.");
             System.exit(1);
         }
 
@@ -73,6 +73,7 @@ public class ServerConsole implements ChatIF {
     @Override
     public void display(String message) {
         System.out.println("> " + message);
+        // TODO
     }
 
     //Class methods ***************************************************

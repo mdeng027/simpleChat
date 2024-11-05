@@ -33,7 +33,6 @@ public class ClientConsole implements ChatIF {
      */
     ChatClient client;
 
-
     /**
      * Scanner to read from the console
      */
@@ -54,6 +53,7 @@ public class ClientConsole implements ChatIF {
             client = new ChatClient(loginID, host, port, this);
         } catch (IOException exception) {
             System.out.println("ERROR - Can't setup connection!" + " Terminating client.");
+            client.connectionClosed();
             System.exit(1);
         }
 
@@ -77,8 +77,7 @@ public class ClientConsole implements ChatIF {
                 client.handleMessageFromClientUI(message);
             }
         } catch (Exception ex) {
-            System.out.println
-                    ("Unexpected error while reading from console!");
+            System.out.println("Unexpected error while reading from console!");
         }
     }
 
@@ -98,17 +97,20 @@ public class ClientConsole implements ChatIF {
     /**
      * This method is responsible for the creation of the Client UI.
      *
-     * @param args\[0] The host to connect to.
+     * @param args\[0] The login ID of the client.
+     * @param args\[1] The host to connect to.
+     * @param args\[2] The port to connect to.
      */
     public static void main(String[] args) {
+        // The login ID
+        String loginID = "";
+
         // The host
         String host = "";
 
         // The port number
         int port = 0;
 
-        // The login ID
-        String loginID = "";
 
         // Handling login ID argument
         try {

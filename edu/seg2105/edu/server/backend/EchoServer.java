@@ -3,7 +3,6 @@ package edu.seg2105.edu.server.backend;
 // "Object-Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com 
 
-
 import edu.seg2105.client.backend.ChatClient;
 import ocsf.server.*;
 
@@ -27,7 +26,7 @@ public class EchoServer extends AbstractServer {
     /**
      * The login key of the client.
      */
-    final private String key = "loginKey";
+    final private String loginKey = "loginID";
 
     ChatClient client;
 
@@ -55,13 +54,13 @@ public class EchoServer extends AbstractServer {
      * @param msg    The message received from the client.
      * @param client The connection from which the message originated.
      */
-    public void handleMessageFromClient
-    (Object msg, ConnectionToClient client) {
+    public void handleMessageFromClient(Object msg, ConnectionToClient client) {
         System.out.println("Message received: " + msg + " from " + client);
-        String messageString = (String) msg;
-        if (messageString.startsWith("#login")) {
-            String loginID = "";
-            client.setInfo(key, loginID);
+        String msgStr = (String) msg;
+        if (msgStr.startsWith("#login")) {
+            String loginID = msgStr.substring(7).trim(); // "#login " is 7 characters
+            client.setInfo("loginID", loginID);
+            System.out.println("#login " + loginID);
         } else {
             this.sendToAllClients(msg);
         }

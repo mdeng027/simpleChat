@@ -191,7 +191,7 @@ public class ChatClient extends AbstractClient {
      * attempting to reconnect.
      */
     @Override
-    protected void connectionClosed() {
+    public void connectionClosed() {
         System.out.println("Connection closed");
     }
 }
